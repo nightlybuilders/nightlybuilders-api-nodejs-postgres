@@ -1,0 +1,28 @@
+version: '3'
+services:
+  nightlybuilders-api:
+    build: ../
+    image: nightlybuilders/nightlybuilders-nodejs-api:dev
+    environment:
+        - DATABASE_NAME=nightlybuilders_dev
+        - DATABASE_URL=postgres://postgres:pw@nightlybuilders-postgres:5432/nightlybuilders_dev
+    ports:
+        - "3001:3000"
+    depends_on:
+      - nightlybuilders-postgres
+
+  nightlybuilders-postgres:
+    restart: always
+    image: "postgres:10.4-alpine"
+    ports:
+        - "17432:5432"
+    environment:
+        - POSTGRES_PASSWORD=pw
+    volumes:
+      - "./sql:/sql:ro"
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 17002:8080

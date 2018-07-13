@@ -1,0 +1,49 @@
+{
+  "name": "nightlybuilders-nodejs-api",
+  "version": "0.0.0",
+  "description": "Nightly Builders Node.js API. A base repository which provides an opinionated setup.",
+  "main": "src/index.js",
+  "scripts": {
+    "devserver": "DATABASE_NAME=nightlybuilders_dev DATABASE_URL=postgres://postgres:pw@localhost:17432/nightlybuilders_dev nodemon .",
+    "test": "DATABASE_NAME=nightlybuilders_test DATABASE_URL=postgres://postgres:pw@localhost:17432/nightlybuilders_test jest"
+  },
+  "dependencies": {
+    "apollo-server": "^2.0.0-rc.5",
+    "apollo-server-hapi": "^2.0.0-rc.10",
+    "good": "^8.1.1",
+    "good-console": "^7.1.0",
+    "good-squeeze": "^5.1.0",
+    "graphql": "^0.13.2",
+    "hapi": "^17.5.2",
+    "hapi-sequelizejs": "^1.2.0",
+    "lodash": "^4.17.10",
+    "pg": "^7.4.3",
+    "sequelize": "^4.38.0"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    },
+    "testPathIgnorePatterns": [
+      "<rootDir>/node_modules/"
+    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/jest-setup.js"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-jest": "^23.4.0",
+    "babel-loader": "^7.1.5",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-register": "^6.26.0",
+    "jest": "^23.4.1",
+    "nodemon": "^1.18.1"
+  },
+  "author": "Lukas Ender <hello@lukasender.at>",
+  "license": "Apache 2.0",
+  "repository": {
+    "type": "git",
+    "url": "git@bitbucket.org:nightlybuilders/nightlybuilders-nodejs-api.git"
+  }
+}
