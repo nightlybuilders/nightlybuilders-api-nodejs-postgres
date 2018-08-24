@@ -2,7 +2,7 @@ version: '3'
 services:
   nightlybuilders-api:
     build: ../
-    image: nightlybuilders/nightlybuilders-nodejs-api:dev
+    image: nightlybuilders/nightlybuilders-api-nodejs-postgres:dev
     environment:
         - DATABASE_NAME=nightlybuilders_dev
         - DATABASE_URL=postgres://postgres:pw@nightlybuilders-postgres:5432/nightlybuilders_dev
