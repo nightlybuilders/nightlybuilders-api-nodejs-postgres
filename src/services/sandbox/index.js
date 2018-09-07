@@ -1,5 +1,4 @@
 import { gql } from 'apollo-server'
-import { find } from 'lodash'
 import { getModel } from '../../database'
 
 // Dummy data set. Data is resolved by the 'resolvers' below.
@@ -13,7 +12,7 @@ const castles = [
 ]
 
 // A dummy GraphQL type definition
-export const typeDefs = gql`
+export const schema = gql`
   type CastlesList {
     data: [Castle]
     total: Int
@@ -24,12 +23,11 @@ export const typeDefs = gql`
     title: String
     country: String
   }
-`;
 
-// A dummy GraphQL query definition
-export const queries = `
-  castle(id: ID!): Castle
-  castles: CastlesList
+  extend type Query {
+    castle(id: ID!): Castle
+    castles: CastlesList
+  }
 `
 
 // Dummy implementation of the 'resolvers'. In this case, we simply return the
