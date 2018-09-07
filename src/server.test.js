@@ -105,7 +105,7 @@ describe('server/server', () => {
     expect(response.result).toBe('{"data":{"svcStatus":{"status":"ok"}}}\n')
   })
 
-  it('fetches data from the database', async () => {
+  it('fetches a single castle from the database', async () => {
     const response = await server.inject({
       method: 'POST',
       url: '/graphql',
@@ -115,5 +115,17 @@ describe('server/server', () => {
     })
     expect(response.statusCode).toBe(200)
     expect(response.result).toBe('{"data":{"castle":{"title":"Schönbrunn Palace"}}}\n')
+  })
+
+  it('fetches all castles from the database', async () => {
+    const response = await server.inject({
+      method: 'POST',
+      url: '/graphql',
+      payload: {
+        query: `query { castles { data { id } } }`
+      }
+    })
+    expect(response.statusCode).toBe(200)
+    expect(response.result).toBe('{"data":{"castles":{"data":[{"id":"1"},{"id":"2"},{"id":"3"},{"id":"4"}]}}}\n')
   })
 })

@@ -1,15 +1,6 @@
 import { gql } from 'apollo-server'
+import { map } from 'lodash'
 import { getModel } from '../../database'
-
-// Dummy data set. Data is resolved by the 'resolvers' below.
-// Data can reside anywhere, e.g. in a file or a database. It's the resolvers
-// responsibility to know where to look for the requested data.
-const castles = [
-  {id: '1', title: 'Schönbrunn Palace',   country: 'Austria'},
-  {id: '2', title: 'Hochosterwitz Castle', country: 'Austria'},
-  {id: '3', title: 'Akershus Festnig', country: 'Norway'},
-  {id: '4', title: 'Bergenhus Festnig', country: 'Norway'},
-]
 
 // A dummy GraphQL type definition
 export const schema = gql`
@@ -30,9 +21,8 @@ export const schema = gql`
   }
 `
 
-// Dummy implementation of the 'resolvers'. In this case, we simply return the
-// data which is defined above ('castles' array). In a more complex
-// application, we could resolve data from a PostgreSQL database instead.
+// Dummy implementation of the 'resolvers'. We resolve data from a PostgreSQL
+// database.
 export const resolvers = {
   Query: {
     castle: (root, args, context, info) => {
@@ -42,10 +32,16 @@ export const resolvers = {
       })
     },
     castles: (root, args, context, info) => {
-      return {
-        data: castles,
-        total: castles && castles.length || 0
-      }
+      const Castle = getModel(context, 'castles')
+      return Castle.findAll().then(r => {
+        const castles = map(r || [], (entry => {
+          return entry.dataValues || {}
+        }))
+        return {
+          data: castles || [],
+          total: castles && castles.length || 0
+        }
+      })
     },
   },
 }
